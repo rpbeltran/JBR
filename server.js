@@ -8,11 +8,9 @@ var app = express();
 var ins  = 0;
 var outs = 0;
 
-app.get( '/', function(request,response) {
+app.get( '/', function(request, response) {
 	
-	response.send( "GET received" );
-
-
+	response.send( { ins: ins, outs: outs } );
 
 });
 
