@@ -1,4 +1,38 @@
 
+var express    = require("express");
+var bodyParser = require("body-parser");
+
+var app = express();
+
+app.get( '/', function(request,response) {
+	
+	response.send( "GET received" );
+
+});
+
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(bodyParser.json());
+
+app.post( '/', function(request,response) {
+
+	response.send( request.body );
+	console.log(    request.body );
+
+});
+
+
+app.listen( 8080 );
+
+
+
+
+
+
+
+/*
+
+
 var app = require('http').createServer(handler);
 var io = require('socket.io')(app);
 
@@ -9,8 +43,8 @@ function handler (req, res) {
 
 	broadcast();
 
-	res.write('Hello World!');
-	console.log( "hello world" );
+	res.write( "hello" );
+	console.log( req.body );
 
   	res.end();
 }
@@ -27,9 +61,12 @@ io.on('connection', function( socket ) {
 
 function broadcast () {
 
-
 	clients.forEach( function(seocket) {
 		socket.emit( 'broadcast', "event" );
 	});
 
 }
+*/
+
+
+
