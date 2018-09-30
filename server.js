@@ -4,9 +4,15 @@ var bodyParser = require("body-parser");
 
 var app = express();
 
+
+var ins  = 0;
+var outs = 0;
+
 app.get( '/', function(request,response) {
 	
 	response.send( "GET received" );
+
+
 
 });
 
@@ -16,14 +22,21 @@ app.use(bodyParser.json());
 
 app.post( '/', function(request,response) {
 
-	response.send( request.body );
-	console.log(    request.body );
+	if( request.body.is_enter == "true" || request.body.is_enter == "True" ) {
+		ins += 1;
+	}
+
+	else {
+		outs += 1;
+	}
+
+	response.send( { ins: ins, outs: outs } );
+	console.log  ( { ins: ins, outs: outs } );
 
 });
 
 
 app.listen( 8080 );
-
 
 
 
@@ -50,18 +63,20 @@ function handler (req, res) {
 }
 
 
-var clients = [];
+var clients = {};
+
+var c = 0;
 
 io.on('connection', function( socket ) {
 
-	clients.append( socket );
+	clients["client_"+c] = socket;
 
 } );
 
 
 function broadcast () {
 
-	clients.forEach( function(seocket) {
+	clients.forEach( function(id, socket) {
 		socket.emit( 'broadcast', "event" );
 	});
 
